@@ -40,7 +40,7 @@ const isActiveLink = (routePath) => {
                   'py-2',
                   'rounded-md',
                 ]"
-                >Prduct</RouterLink
+                >Product</RouterLink
               >
               <RouterLink
                 to="/transaction"
