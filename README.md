@@ -1,7 +1,6 @@
-```markdown
 # API Application
 
-A RESTful API built with Express.js, SQLite, and Sequelize. This application provides authentication, product management, and transaction handling functionalities.
+A RESTful API for transactify built with Express.js, SQLite, and Sequelize. This application provides authentication, product management, and transaction handling functionalities.
 
 ## Features
 
