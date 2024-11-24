@@ -4,6 +4,9 @@ import { sequelize } from "./config/database.js";
 import { authRouter } from "./routes/authRoutes.js";
 import { productRouter } from "./routes/productRoutes.js";
 import { transactionRouter } from "./routes/transsactionRoutes.js";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./docs/swagger.js";
+
 const app = express();
 
 // CORS configuration
@@ -28,6 +31,9 @@ app.use("/", transactionRouter);
 app.get("/", (req, res) => {
   res.send("Server is running!");
 });
+
+// Add this to your app setup
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Start server
 const PORT = process.env.PORT || 3000;

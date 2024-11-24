@@ -4,12 +4,27 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Auth API",
+      title: "Your API Documentation",
       version: "1.0.0",
-      description: "Authentication API with Express, Sequelize, and SQLite",
+      description: "API documentation for your application",
+    },
+    servers: [
+      {
+        url: "http://localhost:3000", // Change this to your server URL
+        description: "Development server",
+      },
+    ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
     },
   },
-  apis: ["./src/routes/*.js"],
+  apis: ["./routes/*.js"], // Path to your route files
 };
 
 export const swaggerSpec = swaggerJSDoc(options);
