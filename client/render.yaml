@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: vue-app
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: dist
+    routes:
+      - source: /.*
+        destination: /index.html
