@@ -40,5 +40,27 @@ export const useTransactionStore = defineStore('transactions', {
       this.transactions = []
       this.error = null
     },
+
+    async createTransaction(transactionData) {
+      try {
+        this.loading = true
+        this.error = null
+
+        const response = await axios.post('/transactions', transactionData)
+
+        if (response.data.success) {
+          // Add the new transaction to the state
+          this.transactions.unshift(response.data.data)
+          return response.data.data
+        } else {
+          throw new Error(response.data.message)
+        }
+      } catch (error) {
+        this.error = error.response?.data?.message || 'Failed to create transaction'
+        throw error
+      } finally {
+        this.loading = false
+      }
+    },
   },
 })
