@@ -40,14 +40,8 @@
 </template>
 
 <script>
-import { useAuthStore } from '@/stores/auth'
-
 export default {
   name: 'LoginForm',
-  setup() {
-    const authStore = useAuthStore()
-    return { authStore }
-  },
   data() {
     return {
       loginForm: {
@@ -62,21 +56,9 @@ export default {
       try {
         this.isLoading = true
         const response = await this.$axios.post('/login', this.loginForm)
-
-        if (response.data.success) {
-          // Update auth store with response data
-          this.authStore.handleLoginSuccess(response.data)
-
-          // Reset form
-          this.loginForm.email = ''
-          this.loginForm.password = ''
-
-          // Emit the login-success event
-          this.$emit('login-success', response.data)
-
-          alert(response.data.message)
-        }
+        this.$emit('login-success', response.data)
       } catch (error) {
+        console.error('Login error:', error)
         alert(error.response?.data?.message || 'Login failed')
       } finally {
         this.isLoading = false
