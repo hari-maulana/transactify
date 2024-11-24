@@ -2,8 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 
-import { User } from "../models/userModel.js";
-
+import { Product } from "../models/productModel.js";
 // JWT configuration
 const JWT_SECRET = "your-secret-key";
 const JWT_REFRESH_SECRET = "your-refresh-secret-key";

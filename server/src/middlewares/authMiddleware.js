@@ -1,4 +1,9 @@
 import jwt from "jsonwebtoken";
+import { v4 as uuidv4 } from "uuid";
+
+// JWT configuration
+const JWT_SECRET = "your-secret-key";
+const JWT_REFRESH_SECRET = "your-refresh-secret-key";
 
 export const authenticateToken = (req, res, next) => {
   const token = req.headers["authorization"]?.split(" ")[1];
