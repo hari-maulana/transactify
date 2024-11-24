@@ -2,7 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import HomeView from '@/views/HomeView.vue'
 import DashboardLayout from '@/layout/DashboardLayout.vue'
-import AuthLayout from '@/layout/AuthLayout.vue'
+import AuthLoginView from '@/views/AuthLoginView.vue'
+import AuthRegisterView from '@/views/AuthRegisterView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,22 +20,16 @@ const router = createRouter({
       ],
     },
     {
-      path: '/auth',
-      name: 'auth',
-      component: AuthLayout,
+      path: '/login',
+      name: 'login',
+      component: AuthLoginView,
       meta: { requiresGuest: true }, // Add this meta field for auth pages
-      // children: [
-      //     {
-      //         path: 'login',
-      //         name: 'login',
-      //         component: () => import('../views/auth/LoginView.vue')
-      //     },
-      //     {
-      //         path: 'register',
-      //         name: 'register',
-      //         component: () => import('../views/auth/RegisterView.vue')
-      //     }
-      // ]
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: AuthRegisterView,
+      meta: { requiresGuest: true }, // Add this meta field for auth pages
     },
   ],
 })
@@ -45,7 +40,7 @@ router.beforeEach((to, from, next) => {
   // Check if the route requires authentication
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     // Redirect to auth page if not authenticated
-    next('/auth')
+    next('/login')
   }
   // Check if the route should only be accessible by guests (non-authenticated users)
   else if (to.meta.requiresGuest && authStore.isLoggedIn) {
@@ -72,14 +67,14 @@ router.beforeEach((to, from, next) => {
           // Token is expired
           authStore.clearAuth()
           if (to.meta.requiresAuth) {
-            return next('/auth')
+            return next('/login')
           }
         }
       } catch (error) {
         console.error('Error parsing token:', error)
         authStore.clearAuth()
         if (to.meta.requiresAuth) {
-          return next('/auth')
+          return next('/login')
         }
       }
     }
