@@ -1,13 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { v4 as uuidv4 } from "uuid";
-import { DataTypes } from "sequelize";
 import { sequelize } from "./config/database.js";
-import { User } from "./models/userModel.js";
-import { Product } from "./models/productModel.js";
-import { authenticateToken } from "./middlewares/authMiddleware.js";
-import { Transaction, TransactionItem } from "./models/transactionModel.js";
-
 import { authRouter } from "./routes/authRoutes.js";
 import { productRouter } from "./routes/productRoutes.js";
 import { transactionRouter } from "./routes/transsactionRoutes.js";

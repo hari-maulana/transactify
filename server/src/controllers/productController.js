@@ -1,11 +1,5 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
-
 import { Product } from "../models/productModel.js";
-// JWT configuration
-const JWT_SECRET = "your-secret-key";
-const JWT_REFRESH_SECRET = "your-refresh-secret-key";
 
 export const createProduct = async (req, res) => {
   const requestId = uuidv4();
