@@ -5,7 +5,7 @@ import Navbar from '../components/BaseNavbar.vue'
 </script>
 
 <template>
-  <div class="dashboard-layout">
+  <div class="bg-gray-100 dashboard-layout">
     <Navbar />
     <div class="dashboard-container">
       <main class="dashboard-content">

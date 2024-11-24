@@ -54,6 +54,7 @@
 
 <script>
 import { useTransactionStore } from '../stores/transaction'
+
 export default {
   name: 'HomeView',
   setup() {
@@ -88,16 +89,16 @@ export default {
         minute: '2-digit',
       })
     },
-    async fetchTransactions() {
-      try {
-        await this.transactionStore.fetchTransactions()
-      } catch (error) {
-        console.error('Error in component:', error)
-      }
-    },
   },
-  created() {
-    this.fetchTransactions()
+  beforeRouteEnter(to, from, next) {
+    const transactionStore = useTransactionStore()
+    transactionStore
+      .fetchTransactions()
+      .then(() => next())
+      .catch((err) => {
+        console.error('Failed to fetch transactions:', err)
+        next()
+      })
   },
 }
 </script>
