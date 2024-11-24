@@ -57,22 +57,6 @@
       </p>
     </div>
   </div>
-
-  <!-- <div class="register-form">
-    <h2>Register</h2>
-    <form @submit.prevent="handleRegister">
-      <input type="text" v-model="registerForm.name" placeholder="Name" required />
-      <input type="email" v-model="registerForm.email" placeholder="Email" required />
-      <input type="password" v-model="registerForm.password" placeholder="Password" required />
-      <input
-        type="password"
-        v-model="registerForm.confirmPassword"
-        placeholder="Confirm Password"
-        required
-      />
-      <button type="submit" :disabled="!isFormValid">Register</button>
-    </form>
-  </div> -->
 </template>
 
 <script>
@@ -106,6 +90,8 @@ export default {
         const response = await this.$axios.post('/register', this.registerForm)
         alert(response.data.message || 'Registration successful! Please login.')
         this.registerForm = { name: '', email: '', password: '', confirmPassword: '' }
+        this.isLoading = false
+        this.$router.push({ name: 'login' })
       } catch (error) {
         alert(error.response?.data?.message || 'Registration failed')
       }

@@ -4,6 +4,8 @@ import HomeView from '@/views/HomeView.vue'
 import DashboardLayout from '@/layout/DashboardLayout.vue'
 import AuthLoginView from '@/views/AuthLoginView.vue'
 import AuthRegisterView from '@/views/AuthRegisterView.vue'
+import ProductView from '@/views/ProductView.vue'
+import TransactionView from '@/views/TransactionView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +20,16 @@ const router = createRouter({
           path: '',
           name: 'dashboard',
           component: HomeView,
+        },
+        {
+          path: 'product',
+          name: 'product',
+          component: ProductView,
+        },
+        {
+          path: 'transaction',
+          name: 'transaction',
+          component: TransactionView,
         },
       ],
     },
