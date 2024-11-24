@@ -51,7 +51,9 @@
       </form>
       <p class="mt-4 text-sm text-center text-green-600">
         Already have an account?
-        <a href="/login" class="font-bold text-green-700 hover:underline">Login</a>
+        <router-link to="/login" class="font-bold text-green-700 hover:underline">
+          Login
+        </router-link>
       </p>
     </div>
   </div>

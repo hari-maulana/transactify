@@ -1,9 +1,10 @@
 services:
   - type: static
-    name: vue-app
+    name: transactify
     env: static
     buildCommand: npm run build
     staticPublishPath: dist
     routes:
-      - source: /.*
+      - type: rewrite
+        source: /*
         destination: /index.html

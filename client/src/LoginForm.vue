@@ -31,7 +31,9 @@
       </form>
       <p class="mt-4 text-sm text-center text-green-600">
         Don't have an account?
-        <a href="/register" class="font-bold text-green-700 hover:underline">Register</a>
+        <router-link to="/register" class="font-bold text-green-700 hover:underline">
+          Register
+        </router-link>
       </p>
     </div>
   </div>

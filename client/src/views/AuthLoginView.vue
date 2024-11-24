@@ -23,8 +23,8 @@ export default {
   methods: {
     handleLoginSuccess(response) {
       this.authStore.handleLoginSuccess(response)
-      alert('Hail to spagetti mosnter')
-      this.$router.push('/')
+      alert('Hail to spagetti monster')
+      this.$router.push({ name: 'home' })
     },
     handleLogout() {
       this.authStore.clearAuth()
