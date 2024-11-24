@@ -8,30 +8,21 @@
 
 <script>
 import { useAuthStore } from '@/stores/auth'
-import LoginForm from './../LoginForm.vue'
-// import RegisterForm from './../RegisterForm.vue'
+import LoginForm from '../components/LoginForm.vue'
 
 export default {
   components: {
     LoginForm,
-    // RegisterForm,
   },
   setup() {
     const authStore = useAuthStore()
     return { authStore }
   },
   methods: {
-    handleLoginSuccess(response) {
-      this.authStore.handleLoginSuccess(response)
-      alert('Hail to spagetti monster')
+    handleLoginSuccess(data) {
+      this.authStore.handleLoginSuccess(data)
       this.$router.push({ name: 'home' })
-    },
-    handleLogout() {
-      this.authStore.clearAuth()
-      alert('Logged out successfully.')
     },
   },
 }
 </script>
-
-<style></style>
