@@ -1,146 +1,52 @@
-# API Application
+# 🌟 Transactify
 
-A RESTful API for transactify built with Express.js, SQLite, and Sequelize. This application provides authentication, product management, and transaction handling functionalities.
+A full-stack web application for managing transactions and products with real-time updates.
 
-## Features
+## 🚀 Live Demo
 
-- User Authentication (Register/Login)
-- Product Management
-- Transaction Handling
-- API Documentation with Swagger
-- JWT-based Authentication
-- SQLite Database
-- Sequelize ORM
+- Frontend: [https://transactify-l292.onrender.com](https://transactify-l292.onrender.com)
+- API: [https://transactify-api.onrender.com](https://transactify-api.onrender.com)
 
-## Prerequisites
+## 📂 Project Structure
 
-Before running this application, make sure you have the following installed:
-- Node.js (v14 or higher)
-- Yarn package manager
-- SQLite3
+The project is divided into two main directories:
+- `client/` - Vue.js frontend application
+- `server/` - Node.js backend API
 
-## Installation
+## 🛠️ Tech Stack
 
-1. Clone the repository:
+- Frontend: Vue 3, Pinia, Vue Router
+- Backend: Node.js, Express, PostgreSQL
+- Deployment: Render
+
+## 🏃‍♂️ Getting Started
+
+1. Clone the repository
 ```bash
-git clone <repository-url>
-cd <project-directory>
+git clone https://github.com/yourusername/transactify.git
+cd transactify
 ```
 
-2. Install dependencies:
+2. Start the backend server
 ```bash
+cd server
 yarn install
-```
-
-3. Create a .env file in the root directory:
-```bash
-JWT_SECRET=your_jwt_secret_key
-PORT=3000
-```
-
-4. Initialize the database:
-```bash
-yarn sequelize-cli db:migrate
-```
-
-## Running the Application
-
-Start the development server:
-```bash
 yarn dev
 ```
 
-Or start in production mode:
+3. Start the frontend application
 ```bash
-yarn start
-```
-
-The server will start running at `http://localhost:3000`
-
-## API Documentation
-
-Access the Swagger API documentation at:
-```
-http://localhost:3000/api-docs
-```
-
-## API Endpoints
-
-### Authentication
-- POST `/auth/register` - Register a new user
-- POST `/auth/login` - Login user
-
-### Products
-- GET `/products` - Get all products (requires authentication)
-- POST `/products` - Create a new product (requires authentication)
-
-### Transactions
-- GET `/transactions` - Get all transactions (requires authentication)
-- POST `/transactions` - Create a new transaction (requires authentication)
-- DELETE `/transactions/:id` - Delete a transaction (requires authentication)
-
-## Project Structure
-
-```
-.
-├── config/
-│   └── database.js
-├── controllers/
-│   ├── authController.js
-│   ├── productController.js
-│   └── transactionController.js
-├── middlewares/
-│   └── authMiddleware.js
-├── models/
-│   ├── index.js
-│   ├── user.js
-│   ├── product.js
-│   └── transaction.js
-├── routes/
-│   ├── auth.js
-│   ├── product.js
-│   └── transaction.js
-├── .env
-├── .gitignore
-├── package.json
-└── README.md
-```
-
-## Dependencies
-
-Main dependencies used in this project:
-- express
-- sequelize
-- sqlite3
-- jsonwebtoken
-- bcryptjs
-- swagger-jsdoc
-- swagger-ui-express
-
-## Development Dependencies
-- nodemon
-- sequelize-cli
-
-## Scripts
-
-```bash
-# Start development server
+cd client
+yarn install
 yarn dev
-
-# Start production server
-yarn start
-
-# Run database migrations
-yarn migrate
-
-# Undo database migrations
-yarn migrate:undo
 ```
 
-## Contributing
+## 📝 Documentation
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/your-feature`)
-3. Commit your changes (`git commit -m 'Add some feature'`)
-4. Push to the branch (`git push origin feature/your-feature`)
-5. Create a new Pull Request
+- Check the README files in each directory for specific setup instructions:
+  - [Client Documentation](./client/README.md)
+  - [Server Documentation](./server/README.md)
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!
