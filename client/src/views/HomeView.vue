@@ -92,13 +92,20 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     const transactionStore = useTransactionStore()
-    transactionStore
-      .fetchTransactions()
-      .then(() => next())
-      .catch((err) => {
-        console.error('Failed to fetch transactions:', err)
-        next()
-      })
+
+    if (from.name === 'Login') {
+      // Force reload the page
+      window.location.reload()
+    } else {
+      // Fetch transactions and proceed with navigation
+      transactionStore
+        .fetchTransactions()
+        .then(() => next())
+        .catch((err) => {
+          console.error('Failed to fetch transactions:', err)
+          next()
+        })
+    }
   },
 }
 </script>
