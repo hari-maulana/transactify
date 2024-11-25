@@ -20,8 +20,12 @@ export default {
   },
   methods: {
     handleLoginSuccess(data) {
-      this.authStore.handleLoginSuccess(data)
-      this.$router.push({ name: 'home' })
+      try {
+        this.authStore.handleLoginSuccess(data)
+        this.$router.push({ name: 'home' })
+      } catch (error) {
+        console.error('Login failed:', error)
+      }
     },
   },
 }
