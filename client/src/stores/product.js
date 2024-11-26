@@ -1,6 +1,6 @@
-// stores/product.js
 import { defineStore } from 'pinia'
-import axios from '@/plugins/axios'
+import axios from 'axios'
+import { useAuthStore } from './auth'
 
 export const useProductStore = defineStore('products', {
   state: () => ({
@@ -17,11 +17,20 @@ export const useProductStore = defineStore('products', {
 
   actions: {
     async fetchProducts() {
+      const authStore = useAuthStore() // Access the auth store
+      const instance = axios.create({
+        baseURL: import.meta.env.VITE_API_BASE_URL,
+        timeout: 10000,
+        headers: {
+          Authorization: `Bearer ${authStore.accessToken}`,
+        },
+      })
+
       try {
         this.loading = true
         this.error = null
 
-        const response = await axios.get('/products')
+        const response = await instance.get('/products')
 
         if (response.data.success) {
           this.products = response.data.data
@@ -37,11 +46,20 @@ export const useProductStore = defineStore('products', {
     },
 
     async createProduct(productData) {
+      const authStore = useAuthStore()
+      const instance = axios.create({
+        baseURL: import.meta.env.VITE_API_BASE_URL,
+        timeout: 10000,
+        headers: {
+          Authorization: `Bearer ${authStore.accessToken}`,
+        },
+      })
+
       try {
         this.loading = true
         this.error = null
 
-        const response = await axios.post('/products', productData)
+        const response = await instance.post('/products', productData)
 
         if (response.data.success) {
           this.products.unshift(response.data.data)

@@ -1,6 +1,6 @@
-// stores/transactions.js
 import { defineStore } from 'pinia'
-import axios from '@/plugins/axios'
+import axios from 'axios'
+import { useAuthStore } from './auth'
 
 export const useTransactionStore = defineStore('transactions', {
   state: () => ({
@@ -17,11 +17,20 @@ export const useTransactionStore = defineStore('transactions', {
 
   actions: {
     async fetchTransactions() {
+      const authStore = useAuthStore()
+      const instance = axios.create({
+        baseURL: import.meta.env.VITE_API_BASE_URL,
+        timeout: 10000,
+        headers: {
+          Authorization: `Bearer ${authStore.accessToken}`,
+        },
+      })
+
       try {
         this.loading = true
         this.error = null
 
-        const response = await axios.get('/transactions')
+        const response = await instance.get('/transactions')
 
         if (response.data.success) {
           this.transactions = response.data.data
@@ -36,20 +45,23 @@ export const useTransactionStore = defineStore('transactions', {
       }
     },
 
-    clearTransactions() {
-      this.transactions = []
-      this.error = null
-    },
-
     async createTransaction(transactionData) {
+      const authStore = useAuthStore()
+      const instance = axios.create({
+        baseURL: import.meta.env.VITE_API_BASE_URL,
+        timeout: 10000,
+        headers: {
+          Authorization: `Bearer ${authStore.accessToken}`,
+        },
+      })
+
       try {
         this.loading = true
         this.error = null
 
-        const response = await axios.post('/transactions', transactionData)
+        const response = await instance.post('/transactions', transactionData)
 
         if (response.data.success) {
-          // Add the new transaction to the state
           this.transactions.unshift(response.data.data)
           return response.data.data
         } else {
@@ -61,6 +73,11 @@ export const useTransactionStore = defineStore('transactions', {
       } finally {
         this.loading = false
       }
+    },
+
+    clearTransactions() {
+      this.transactions = []
+      this.error = null
     },
   },
 })
