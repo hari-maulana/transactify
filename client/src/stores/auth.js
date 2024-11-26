@@ -1,52 +1,55 @@
 import { defineStore } from 'pinia'
+import axios from 'axios'
+import router from '@/router'
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
+    user: null,
     accessToken: localStorage.getItem('accessToken') || null,
     refreshToken: localStorage.getItem('refreshToken') || null,
-    user: JSON.parse(localStorage.getItem('user')) || null,
-    expiredIn: null,
   }),
-
-  getters: {
-    isLoggedIn: (state) => !!state.accessToken,
-    getUserId: (state) => state.user?.id,
-    getUserEmail: (state) => state.user?.email,
-    getUserName: (state) => state.user?.name,
-  },
-
   actions: {
-    setAuthData(authData) {
-      const { accessToken, refreshToken, expiredIn, user } = authData
+    saveTokens(data) {
+      this.accessToken = data.accessToken
+      this.refreshToken = data.refreshToken
+      localStorage.setItem('accessToken', data.accessToken)
+      localStorage.setItem('refreshToken', data.refreshToken)
+    },
+    async register(payload) {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, payload)
 
-      // Set state
-      this.accessToken = accessToken
-      this.refreshToken = refreshToken
-      this.expiredIn = expiredIn
-      this.user = user
-
-      // Store in localStorage
-      localStorage.setItem('accessToken', accessToken)
-      localStorage.setItem('refreshToken', refreshToken)
-      localStorage.setItem('user', JSON.stringify(user))
+        // Check for success in the API response
+        if (response.data.success) {
+          alert(response.data.message)
+          router.push('/login')
+        } else {
+          throw new Error(response.data.message || 'Registration failed')
+        }
+      } catch (error) {
+        // Handle errors and show appropriate messages
+        alert(error.response?.data?.message || error.message || 'Registration failed')
+      }
     },
 
-    clearAuth() {
-      // Clear state
+    async login(payload) {
+      try {
+        const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/login`, payload)
+        this.saveTokens(response.data.data)
+        this.user = response.data.data.user
+        router.push('/')
+      } catch (error) {
+        console.error(error)
+        alert('Login failed')
+      }
+    },
+    logout() {
+      this.user = null
       this.accessToken = null
       this.refreshToken = null
-      this.expiredIn = null
-      this.user = null
-
-      // Clear localStorage
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
-      localStorage.removeItem('user')
-    },
-
-    handleLoginSuccess(response) {
-      const authData = response.data
-      this.setAuthData(authData)
+      router.push('/login')
     },
   },
 })
