@@ -1,3 +1,24 @@
+<!-- <template>
+  <div>
+    <h1>Dashboard</h1>
+    <p>Welcome, {{ user?.name }}</p>
+    <button @click="logout">Logout</button>
+  </div>
+</template>
+
+<script>
+import { useAuthStore } from '@/stores/auth'
+
+export default {
+  setup() {
+    const authStore = useAuthStore()
+    const { user, logout } = authStore
+
+    return { user, logout }
+  },
+}
+</script> -->
+
 <!-- HomeView.vue -->
 <template>
   <div class="home">

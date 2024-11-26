@@ -6,7 +6,7 @@
         <div>
           <input
             type="text"
-            v-model="registerForm.name"
+            v-model="name"
             placeholder="Name"
             required
             class="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -16,16 +16,27 @@
         <div>
           <input
             type="email"
-            v-model="registerForm.email"
+            v-model="email"
             placeholder="Email"
             required
             class="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
           />
         </div>
+
+        <div>
+          <input
+            type="text"
+            v-model="phoneNumber"
+            placeholder="Phone Number"
+            required
+            class="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
+          />
+        </div>
+
         <div>
           <input
             type="password"
-            v-model="registerForm.password"
+            v-model="password"
             placeholder="Create Password"
             required
             class="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
@@ -34,19 +45,20 @@
         <div>
           <input
             type="password"
-            v-model="registerForm.confirmPassword"
-            placeholder="Confirm "
+            v-model="confirmPassword"
+            placeholder="Confirm Password"
             required
             class="w-full px-4 py-2 border border-green-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
           />
         </div>
 
         <button
+          utton
           type="submit"
-          :disabled="isLoading || !isFormValid"
+          :disabled="loading"
           class="w-full px-4 py-2 font-semibold text-white bg-green-600 rounded-lg hover:bg-green-700 disabled:opacity-50"
         >
-          {{ isLoading ? 'Registering...' : 'Register' }}
+          {{ loading ? 'Registering...' : 'Register' }}
         </button>
       </form>
       <p class="mt-4 text-sm text-center text-green-600">
@@ -60,42 +72,68 @@
 </template>
 
 <script>
-export default {
-  name: 'RegisterForm',
+import { useAuthStore } from '@/stores/auth'
+import { ref } from 'vue'
 
-  data() {
-    return {
-      registerForm: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-      },
-      isLoading: false,
-    }
-  },
-  computed: {
-    isFormValid() {
-      return (
-        this.registerForm.password === this.registerForm.confirmPassword &&
-        this.registerForm.password !== '' &&
-        this.registerForm.confirmPassword !== ''
-      )
-    },
-  },
-  methods: {
-    async handleRegister() {
-      try {
-        this.isLoading = true
-        const response = await this.$axios.post('/register', this.registerForm)
-        alert(response.data.message || 'Registration successful! Please login.')
-        this.registerForm = { name: '', email: '', password: '', confirmPassword: '' }
-        this.isLoading = false
-        this.$router.push({ name: 'login' })
-      } catch (error) {
-        alert(error.response?.data?.message || 'Registration failed')
+export default {
+  setup() {
+    const authStore = useAuthStore()
+    const name = ref('')
+    const email = ref('')
+    const password = ref('')
+    const confirmPassword = ref('')
+    const phoneNumber = ref('')
+    const error = ref('') // Validation error message
+    const loading = ref(false) // Loading state
+
+    const handleRegister = async () => {
+      // Reset error message
+      error.value = ''
+
+      // Check if passwords match
+      if (password.value !== confirmPassword.value) {
+        error.value = 'Passwords do not match.'
+        return
       }
-    },
+
+      // Set loading state
+      loading.value = true
+
+      try {
+        // Call the register action in the store
+        await authStore.register({
+          name: name.value,
+          email: email.value,
+          password: password.value,
+          phoneNumber: phoneNumber.value,
+        })
+
+        // Reset form on successful registration
+        name.value = ''
+        email.value = ''
+        password.value = ''
+        confirmPassword.value = ''
+        phoneNumber.value = ''
+      } catch (err) {
+        // Handle registration error
+        console.error('Registration error:', err)
+        error.value = 'Registration failed. Please try again.'
+      } finally {
+        // Reset loading state
+        loading.value = false
+      }
+    }
+
+    return {
+      name,
+      email,
+      password,
+      confirmPassword,
+      phoneNumber,
+      handleRegister,
+      error,
+      loading,
+    }
   },
 }
 </script>
